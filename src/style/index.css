@@ -1,0 +1,15 @@
+body{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+
+    margin: 0;
+    padding: 0;
+}
+
+button, a{
+    cursor: pointer;
+}
+
+.drawer-search .MuiDrawer-paperAnchorLeft{
+    width: 459px;
+}

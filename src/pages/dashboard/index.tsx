@@ -1,0 +1,121 @@
+import { Grid } from "@material-ui/core";
+
+import Location from "../components/Location";
+import BorderLinearProgress from "../components/Progress";
+
+import LightCloud from "../../assets/img/LightCloud.png";
+
+import {
+  Container,
+  Content,
+  Header,
+  Button,
+  Main,
+  WatherContainer,
+  WeatherCard,
+  Title,
+  Description,
+  Max,
+  Min,
+  ContainerDetails,
+  TitleDetails,
+  ContainerCard,
+  Card,
+  CardSubTitle,
+  CardTitle,
+  CardDescription,
+  CardPercentage,
+  Percentage,
+  Footer,
+  TextFooter,
+} from "./style";
+
+const Dashboard = () => {
+  return (
+    <Container>
+      <Location />
+
+      <Content>
+        <Header>
+          <Button className="celsius">ºC</Button>
+          <Button className="fahrenheit">ºF</Button>
+        </Header>
+
+        <Main>
+          <WatherContainer>
+            <WeatherCard>
+              <Title>Tomorrow</Title>
+              <img src={LightCloud} width="100%" />
+              <Description>
+                <Max>16ºC</Max>
+                <Min>11ºC</Min>
+              </Description>
+            </WeatherCard>
+          </WatherContainer>
+
+          <ContainerDetails>
+            <TitleDetails>Today's Hightlights</TitleDetails>
+
+            <ContainerCard>
+              <Grid container>
+                <Grid item xs={12} md={6}>
+                  <Card>
+                    <CardSubTitle>Wind Status</CardSubTitle>
+                    <CardTitle>
+                      <span>7</span> mph
+                    </CardTitle>
+                    <CardDescription>wsw</CardDescription>
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Card>
+                    <CardSubTitle>Humidity</CardSubTitle>
+                    <CardTitle>
+                      <span>84</span> %
+                    </CardTitle>
+                    <CardDescription>
+                      <CardPercentage>
+                        <Percentage>0</Percentage>
+                        <Percentage>50</Percentage>
+                        <Percentage>100</Percentage>
+                      </CardPercentage>
+                      <BorderLinearProgress variant="determinate" value={50} />
+                      <Percentage className="right">%</Percentage>
+                    </CardDescription>
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Card>
+                    <CardSubTitle>Visibility</CardSubTitle>
+                    <CardTitle>
+                      <span>6,4</span> miles
+                    </CardTitle>
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Card>
+                    <CardSubTitle>Air Pressure</CardSubTitle>
+                    <CardTitle>
+                      <span>998</span> mb
+                    </CardTitle>
+                  </Card>
+                </Grid>
+              </Grid>
+            </ContainerCard>
+          </ContainerDetails>
+        </Main>
+
+        <Footer>
+          <TextFooter>
+            created by <span>Grazielle Conceição</span> - devChallenges.io
+          </TextFooter>
+        </Footer>
+      </Content>
+    </Container>
+  );
+};
+
+export default Dashboard;
