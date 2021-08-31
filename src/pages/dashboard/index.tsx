@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import { Grid } from "@material-ui/core";
 
 import Location from "../components/Location";
@@ -29,8 +31,50 @@ import {
   Footer,
   TextFooter,
 } from "./style";
+import api from "../../services/api";
+
+interface IData{
+  cid: string;
+  city: string;
+  city_name: string;
+  condition_code: string;
+  condition_slug: string;
+  currently: string;
+  date: string;
+  description: string;
+  forecast: IForecast[];
+  humidity: number
+}
+
+interface IForecast{
+  condigiton: string;
+  date: string;
+  description: string;
+  max: number;
+  min: number;
+}
 
 const Dashboard = () => {
+  const [data, setData] = useState({} as IData);
+
+  console.log(data)
+
+  const getData = async () => {
+    const { data: response } = await api.get('&woeid=455910');
+    setData(response.results);
+  }
+
+  function updateForecast(){
+    const forecast_actual = data.forecast.shift();
+
+    console.log(forecast_actual)
+  }
+
+  useEffect(() => {
+    getData();
+    updateForecast()
+  }, [])
+
   return (
     <Container>
       <Location />
