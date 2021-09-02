@@ -57,6 +57,8 @@ export const Main = styled.main`
 `;
 
 export const WatherContainer = styled.section`
+    display: flex;
+    
     @media (max-width: 767px){
         padding: 0 .8rem;
     }

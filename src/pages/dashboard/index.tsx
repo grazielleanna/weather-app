@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 
 import { Grid } from "@material-ui/core";
 
+import { Autoplay } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react/swiper-react";
+
 import Location from "../components/Location";
 import BorderLinearProgress from "../components/Progress";
 
@@ -31,9 +34,10 @@ import {
   Footer,
   TextFooter,
 } from "./style";
+
 import api from "../../services/api";
 
-interface IData{
+interface IData {
   cid: string;
   city: string;
   city_name: string;
@@ -50,41 +54,46 @@ interface IData{
   sunset: string;
 }
 
-interface IForecast{
-  condigiton: string;
+interface IForecast {
+  condition: string;
   date: string;
   description: string;
   max: number;
   min: number;
+  weekday: string;
 }
 
 const Dashboard = () => {
   const [data, setData] = useState({} as IData);
   const [forecast, setForecast] = useState<IForecast[]>([]);
-  const wind = data.wind_speedy.split(' ');
-
-  console.log(data)
-
-  const getData = async () => {
-    const { data: response } = await api.get('&woeid=455910');
-    setData(response.results);
-  }
-
-  function updateForecast(){
-    setForecast(data?.forecast);
-  }
-
-  console.log(wind);
+  const wind = data.wind_speedy?.split(" ");
+  const sunrise = data?.sunrise?.split(" ");
+  const sunset = data?.sunset?.split(" ");
 
   useEffect(() => {
     getData();
-    updateForecast()
   }, []);
 
+  useEffect(() => {
+    if (data) {
+      updateForecast();
+    }
+  }, [data]);
+
+  const getData = async () => {
+    const { data: response } = await api.get("&woeid=455910");
+    setData(response.results);
+  };
+
+  const updateForecast = () => {
+    const arrayForecast = data?.forecast;
+    arrayForecast?.shift();
+    setForecast(arrayForecast);
+  };
 
   return (
     <Container>
-      <Location />
+      <Location data={data} />
 
       <Content>
         <Header>
@@ -94,34 +103,36 @@ const Dashboard = () => {
 
         <Main>
           <WatherContainer>
-            <WeatherCard>
-              <Title>Tomorrow</Title>
-              <img src={LightCloud} width="100%" />
-              <Description>
-                <Max>16ºC</Max>
-                <Min>11ºC</Min>
-              </Description>
-            </WeatherCard>
+            {forecast?.map((item, key) => (
+              <WeatherCard key={key}>
+                <Title>{item.weekday}</Title>
+                <img src={LightCloud} width="100%" />
+                <Description>
+                  <Max>{item.max} ºC</Max>
+                  <Min>{item.min} ºC</Min>
+                </Description>
+              </WeatherCard>
+            ))}
           </WatherContainer>
 
           <ContainerDetails>
-            <TitleDetails>Today's Hightlights</TitleDetails>
+            <TitleDetails>Destaques de hoje</TitleDetails>
 
             <ContainerCard>
               <Grid container>
                 <Grid item xs={12} md={6}>
                   <Card>
-                    <CardSubTitle>Wind Status</CardSubTitle>
+                    <CardSubTitle>Status do vento</CardSubTitle>
                     <CardTitle>
-                      <span>{wind[0]}</span> {wind[1]}
+                      <span>{wind ? wind[0] : ""}</span> {wind ? wind[1] : ""}
                     </CardTitle>
-                    <CardDescription>{wind[1]}</CardDescription>
+                    <CardDescription>{wind ? wind[1] : ""}</CardDescription>
                   </Card>
                 </Grid>
 
                 <Grid item xs={12} md={6}>
                   <Card>
-                    <CardSubTitle>Humidity</CardSubTitle>
+                    <CardSubTitle>Umidade</CardSubTitle>
                     <CardTitle>
                       <span>{data.humidity}</span> %
                     </CardTitle>
@@ -131,7 +142,10 @@ const Dashboard = () => {
                         <Percentage>50</Percentage>
                         <Percentage>100</Percentage>
                       </CardPercentage>
-                      <BorderLinearProgress variant="determinate" value={data.humidity} />
+                      <BorderLinearProgress
+                        variant="determinate"
+                        value={data.humidity}
+                      />
                       <Percentage className="right">%</Percentage>
                     </CardDescription>
                   </Card>
@@ -139,18 +153,20 @@ const Dashboard = () => {
 
                 <Grid item xs={12} md={6}>
                   <Card>
-                    <CardSubTitle>Visibility</CardSubTitle>
+                    <CardSubTitle>Nascer do sol</CardSubTitle>
                     <CardTitle>
-                      <span>6,4</span> miles
+                      <span>{sunrise ? sunrise[0] : ""}</span>{" "}
+                      {sunrise ? sunrise[1] : ""}
                     </CardTitle>
                   </Card>
                 </Grid>
 
                 <Grid item xs={12} md={6}>
                   <Card>
-                    <CardSubTitle>Air Pressure</CardSubTitle>
+                    <CardSubTitle>Pôr do sol</CardSubTitle>
                     <CardTitle>
-                      <span>998</span> mb
+                      <span>{sunset ? sunset[0] : ""}</span>{" "}
+                      {sunset ? sunset[1] : ""}
                     </CardTitle>
                   </Card>
                 </Grid>
@@ -161,7 +177,7 @@ const Dashboard = () => {
 
         <Footer>
           <TextFooter>
-            created by <span>Grazielle Conceição</span> - devChallenges.io
+            criado por <span>Grazielle Conceição</span> - devChallenges.io
           </TextFooter>
         </Footer>
       </Content>
