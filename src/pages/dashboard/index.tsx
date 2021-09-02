@@ -43,7 +43,11 @@ interface IData{
   date: string;
   description: string;
   forecast: IForecast[];
-  humidity: number
+  humidity: number;
+  wind_speedy: string;
+  temp: number;
+  sunrise: string;
+  sunset: string;
 }
 
 interface IForecast{
@@ -56,6 +60,8 @@ interface IForecast{
 
 const Dashboard = () => {
   const [data, setData] = useState({} as IData);
+  const [forecast, setForecast] = useState<IForecast[]>([]);
+  const wind = data.wind_speedy.split(' ');
 
   console.log(data)
 
@@ -65,15 +71,16 @@ const Dashboard = () => {
   }
 
   function updateForecast(){
-    const forecast_actual = data.forecast.shift();
-
-    console.log(forecast_actual)
+    setForecast(data?.forecast);
   }
+
+  console.log(wind);
 
   useEffect(() => {
     getData();
     updateForecast()
-  }, [])
+  }, []);
+
 
   return (
     <Container>
@@ -106,9 +113,9 @@ const Dashboard = () => {
                   <Card>
                     <CardSubTitle>Wind Status</CardSubTitle>
                     <CardTitle>
-                      <span>7</span> mph
+                      <span>{wind[0]}</span> {wind[1]}
                     </CardTitle>
-                    <CardDescription>wsw</CardDescription>
+                    <CardDescription>{wind[1]}</CardDescription>
                   </Card>
                 </Grid>
 
@@ -116,7 +123,7 @@ const Dashboard = () => {
                   <Card>
                     <CardSubTitle>Humidity</CardSubTitle>
                     <CardTitle>
-                      <span>84</span> %
+                      <span>{data.humidity}</span> %
                     </CardTitle>
                     <CardDescription>
                       <CardPercentage>
@@ -124,7 +131,7 @@ const Dashboard = () => {
                         <Percentage>50</Percentage>
                         <Percentage>100</Percentage>
                       </CardPercentage>
-                      <BorderLinearProgress variant="determinate" value={50} />
+                      <BorderLinearProgress variant="determinate" value={data.humidity} />
                       <Percentage className="right">%</Percentage>
                     </CardDescription>
                   </Card>
