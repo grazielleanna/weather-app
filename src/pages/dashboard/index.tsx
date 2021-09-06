@@ -2,9 +2,6 @@ import { useState, useEffect } from "react";
 
 import { Grid } from "@material-ui/core";
 
-import { Autoplay } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react/swiper-react";
-
 import Location from "../components/Location";
 import BorderLinearProgress from "../components/Progress";
 
