@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import { Grid } from "@material-ui/core";
 
@@ -32,7 +32,9 @@ import {
   TextFooter,
 } from "./style";
 
-import api from "../../services/api";
+import api, { apiWoeid } from "../../services/api";
+
+import SearchContext from "../../context/Search";
 
 interface IData {
   cid: string;
@@ -60,16 +62,30 @@ interface IForecast {
   weekday: string;
 }
 
+interface IWoeid{
+  cid: string;
+  country: string;
+  name: string;
+  region: string;
+  woeid: number;
+}
+
 const Dashboard = () => {
+  const { search } = useContext(SearchContext);
   const [data, setData] = useState({} as IData);
+  const [woeid, setWoeid] = useState({} as IWoeid)
   const [forecast, setForecast] = useState<IForecast[]>([]);
   const wind = data.wind_speedy?.split(" ");
   const sunrise = data?.sunrise?.split(" ");
   const sunset = data?.sunset?.split(" ");
 
   useEffect(() => {
+    getWoeid();
+  }, [search]);
+
+  useEffect(() => {
     getData();
-  }, []);
+  }, [woeid])
 
   useEffect(() => {
     if (data) {
@@ -77,8 +93,13 @@ const Dashboard = () => {
     }
   }, [data]);
 
+  const getWoeid = async () => {
+    const { data: response } = await apiWoeid.get(`&city_name=${search}`);
+    setWoeid(response);
+  }
+
   const getData = async () => {
-    const { data: response } = await api.get("&woeid=455910");
+    const { data: response } = await api.get(`&woeid=${woeid.woeid}`);
     setData(response.results);
   };
 

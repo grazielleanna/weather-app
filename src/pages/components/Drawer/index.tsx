@@ -7,10 +7,10 @@ import Drawer from '@material-ui/core/Drawer';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
+import SearchContext from '../../../context/Search';
 import TextFieldFormsy from '../Input';
 
 import { Container, Header, Close, Search, Button, Main, ButtonOption } from './style'
-import Context from '../../../services/Context';
 
 interface DrawerSearchProps {
     open: any;
@@ -19,11 +19,8 @@ interface DrawerSearchProps {
 
 const DrawerSearch: React.FC<DrawerSearchProps> = ({ open, onclose }) => {
     const [isFormValid, setIsFormValid] = useState(false);
-    const [search, setSearch] = useContext(Context);
+    const { setSearch } = useContext(SearchContext);
     const formRef = useRef(null);
-
-    console.log(search)
-
 
     function enableButton() {
         setIsFormValid(true);
@@ -34,7 +31,7 @@ const DrawerSearch: React.FC<DrawerSearchProps> = ({ open, onclose }) => {
     }
 
     const handleSubmit = (model: any) => {
-        console.log(model);
+        setSearch(model.search);
     }
 
     return (

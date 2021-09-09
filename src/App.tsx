@@ -1,9 +1,12 @@
-import './style/index.css'
-import Routes from './routes';
+import "./style/index.css";
+import Routes from "./routes";
+import GlobalContext from "./context";
 
 function App() {
   return (
-    <Routes />
+    <GlobalContext>
+      <Routes />
+    </GlobalContext>
   );
 }
 

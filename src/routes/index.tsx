@@ -1,16 +1,12 @@
-import { BrowserRouter, Route } from 'react-router-dom';
-import Context from '../services/Context';
-import Dashboard from '../pages/dashboard';
-import { useState } from 'react';
+import { BrowserRouter, Route } from "react-router-dom";
+import Dashboard from "../pages/dashboard";
 
 function Routes() {
-    return (
-        <Context.Provider value='teste'>
-            <BrowserRouter>
-                <Route path="/" exact component={Dashboard} />
-            </BrowserRouter>
-        </Context.Provider>
-    )
+  return (
+    <BrowserRouter>
+      <Route path="/" exact component={Dashboard} />
+    </BrowserRouter>
+  );
 }
 
 export default Routes;

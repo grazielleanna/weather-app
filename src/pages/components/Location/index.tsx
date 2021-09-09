@@ -15,9 +15,9 @@ import {
   Cloud,
 } from "./style";
 
-import Shower from "../../../assets/img/Shower.png";
 import Clear from "../../../assets/img/Clear.png";
 import NightClear from "../../../assets/img/NightClear.png";
+import NightCloud from "../../../assets/img/NightCloud.png";
 import LightCloud from "../../../assets/img/LightCloud.png";
 import LightRain from "../../../assets/img/LightRain.png";
 import Thunderstorm from "../../../assets/img/Thunderstorm.png";
@@ -81,6 +81,10 @@ const Location: React.FC<IData> = ({ data }) => {
 
       case "clear_night":
         setCondition(NightClear);
+        break;
+
+      case "cloudly_night":
+        setCondition(NightCloud);
         break;
 
       case "rain":
@@ -159,13 +163,15 @@ const Location: React.FC<IData> = ({ data }) => {
 
   const capitalizeFirstLetter = (value: string) => {
     return value.charAt(0).toUpperCase() + value.slice(1);
-  }
+  };
 
-  const date = moment().format("llll").split(' ');
+  const date = moment().format("llll").split(" ");
 
   useEffect(() => {
     setImgCondition();
   }, [data]);
+
+  console.log("data", data);
 
   return (
     <>
@@ -211,7 +217,10 @@ const Location: React.FC<IData> = ({ data }) => {
         </Main>
 
         <Footer>
-          <p>Hoje {capitalizeFirstLetter(date[0])} {date[1]} {capitalizeFirstLetter(date[3])}</p>
+          <p>
+            Hoje {capitalizeFirstLetter(date[0])} {date[1]}{" "}
+            {capitalizeFirstLetter(date[3])}
+          </p>
           <p className="location">
             <RoomIcon />
             {data.city_name}
