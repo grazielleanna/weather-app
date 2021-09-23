@@ -75,7 +75,7 @@ const DrawerSearch: React.FC<IDrawerSearchProps> = ({ open, onclose }) => {
                         <CloseIcon />
                     </Close>
 
-                    <Formsy autoComplete="off" onSubmit={handleSubmit} onValid={enableButton} onInvalid={disableButton} ref={formRef}>
+                    <Formsy autoComplete="off" onValidSubmit={handleSubmit} onValid={enableButton} onInvalid={disableButton} ref={formRef}>
                         <Search>
                             <TextFieldFormsy
                                 name="search"
@@ -86,6 +86,7 @@ const DrawerSearch: React.FC<IDrawerSearchProps> = ({ open, onclose }) => {
                                     startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
                                 }}
                                 variant="outlined"
+                                required
                             />
                             <Button disabled={!isFormValid}>
                                 Buscar

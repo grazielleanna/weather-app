@@ -69,6 +69,10 @@ export const Button = styled.button`
     font-size: 1rem;
     font-family: 'Raleway', sans-serif;
     width: 20%;
+
+    &:disabled{
+        background-color: rgba(60, 71, 233, .4);
+    }
 `;
 
 export const Main = styled.main`
