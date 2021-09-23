@@ -45,6 +45,7 @@ import ImgCloud from "../../assets/img/HeavyCloud.png";
 import api, { apiGeo, apiWoeid } from "../../services/api";
 
 import SearchContext from "../../context/Search";
+import Swal from "sweetalert2";
 
 interface IData {
   cid: string;
@@ -112,6 +113,12 @@ const Dashboard = () => {
   const getWoeid = async () => {
     try {
       const { data: response } = await apiWoeid.get(`&city_name=${search ? search : 'São Paulo'}`);
+      if(response.error){
+        Swal.fire({
+          icon: 'warning',
+          html: `${response.error} Tente novamente mais tarde.`,
+        })
+      }
       setWoeid(response);
     } catch (e) {
       console.log(e)
