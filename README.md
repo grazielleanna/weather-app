@@ -29,4 +29,4 @@ Aplicação feita com o intuito de informar o usuário as condições climática
 * Ao finalizar, digite ``yarn start`` e acesse [http://localhost:3000](http://localhost:3000) para visualizar a aplicação funcionando no seu navegador.
 
 ## Desenvolvimento
-Projeto feito com carinho por [Grazielle Conceição](https://github.com/grazielleanna) 🚀
+Projeto feito com carinho por [Grazielle Conceição](https://www.linkedin.com/in/grazielle-concei%C3%A7%C3%A3o-680b29161/) 🚀
