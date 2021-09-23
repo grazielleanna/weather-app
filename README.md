@@ -3,16 +3,16 @@
 Este projeto foi desenvolvido com base no desafio Weather App do [devChallenges](https://devchallenges.io/challenges/mM1UIenRhK808W8qmLWv).
 
 ## :computer: Tecnologias Utilizadas
-### * [ReactJS](https://reactjs.org/)
-### * [TypeScript](https://www.typescriptlang.org/)
+#### * [ReactJS](https://reactjs.org/)
+#### * [TypeScript](https://www.typescriptlang.org/)
 
 ## :closed_book: Bibliotecas Utilizadas
-### * [Styled Component](https://styled-components.com/)
-### * [Axios](https://github.com/axios/axios)
-### * [Material UI](https://mui.com/pt/)
-### * [Formsy](https://github.com/christianalfoni/formsy-react)
-### * [Prettier](https://prettier.io/)
-### * [ESlint](https://eslint.org/)
+#### * [Styled Component](https://styled-components.com/)
+#### * [Axios](https://github.com/axios/axios)
+#### * [Material UI](https://mui.com/pt/)
+#### * [Formsy](https://github.com/christianalfoni/formsy-react)
+#### * [Prettier](https://prettier.io/)
+#### * [ESlint](https://eslint.org/)
 
 ## Telas do Projeto
 <div style="display: flex; flex-direction: row; flex-wrap: wrap">
