@@ -56,8 +56,15 @@ const DrawerSearch: React.FC<IDrawerSearchProps> = ({ open, onclose }) => {
 
     const getCookie = () => {
         const getCookie = Cookie.get('json-search-weather');
-        const resultCookie = JSON.parse(getCookie ? getCookie : '');
-        setCookieSearch(resultCookie);
+        if(getCookie){
+            const resultCookie = JSON.parse(getCookie ? getCookie : '');
+            setCookieSearch(resultCookie);
+        }
+    }
+
+    const handleCity = (city: string) => {
+        setSearch(city);
+        onclose();
     }
 
     return (
@@ -90,7 +97,7 @@ const DrawerSearch: React.FC<IDrawerSearchProps> = ({ open, onclose }) => {
                 <Main>
                     {
                         cookieSearch.map((item, index) => (
-                            <ButtonOption key={index} onClick={() => setSearch(item.city)}>
+                            <ButtonOption key={index} onClick={() => handleCity(item.city)}>
                                 {item.city}
                                 <ArrowForwardIosIcon />
                             </ButtonOption>

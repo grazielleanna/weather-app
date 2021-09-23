@@ -2,15 +2,15 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const api = axios.create({
-    baseURL: `https://api.hgbrasil.com/weather?format=json-cors&key=${process.env.REACT_APP_KEY_HG_BRASIL}`
+    baseURL: `https://api.hgbrasil.com/weather?format=json-cors&key=${process.env.REACT_APP_KEY_WEATHER}`
 });
 
 const apiWoeid = axios.create({
-    baseURL: `https://api.hgbrasil.com/stats/find_woeid?key=${process.env.REACT_APP_KEY_WEATHER}&format=json-cors&sdk_version=console`
+    baseURL: `https://api.hgbrasil.com/stats/find_woeid?key=${process.env.REACT_APP_KEY_HG_BRASIL}&format=json-cors&sdk_version=console`
 });
 
 const apiGeo = axios.create({
-    baseURL: `https://api.hgbrasil.com/weather?format=json-cors&key=335f97fd&user_ip=remote`
+    baseURL: `https://api.hgbrasil.com/weather?format=json-cors&key=${process.env.REACT_APP_KEY_GEO}&user_ip=remote`
 });
 
 api.interceptors.response.use(

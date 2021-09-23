@@ -91,7 +91,9 @@ const Dashboard = () => {
   const sunset = data?.sunset?.split(" ");
 
   useEffect(() => {
-    getWoeid();
+    if(search){
+      getWoeid();
+    }
     // eslint-disable-next-line
   }, [search]);
 
@@ -109,7 +111,7 @@ const Dashboard = () => {
 
   const getWoeid = async () => {
     try {
-      const { data: response } = await apiWoeid.get(`&city_name=${search}`);
+      const { data: response } = await apiWoeid.get(`&city_name=${search ? search : 'São Paulo'}`);
       setWoeid(response);
     } catch (e) {
       console.log(e)

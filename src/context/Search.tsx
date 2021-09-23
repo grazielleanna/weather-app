@@ -6,7 +6,7 @@ interface PropsSearchContext {
 }
 
 const default_value = {
-    search: '',
+    search: 'São Paulo',
     setSearch: () => ''
 }
 
