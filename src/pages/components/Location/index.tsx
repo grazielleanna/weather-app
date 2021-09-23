@@ -33,6 +33,8 @@ import "moment/locale/pt-br";
 
 interface IData {
   data: IInformations;
+  fahrenheit: boolean;
+  getLocation: Function;
 }
 
 interface IInformations {
@@ -55,7 +57,7 @@ interface ICondition {
   [key: string]: string;
 }
 
-const Location: React.FC<IData> = ({ data }) => {
+const Location: React.FC<IData> = ({ data, fahrenheit, getLocation }) => {
   const [open, setOpen] = useState(false);
   const [condition, setCondition] = useState("");
 
@@ -105,6 +107,10 @@ const Location: React.FC<IData> = ({ data }) => {
 
       case "fog":
         setCondition(Fog);
+        break;
+      
+      case "cloud":
+        setCondition(ImgCloud);
         break;
     }
   };
@@ -169,9 +175,8 @@ const Location: React.FC<IData> = ({ data }) => {
 
   useEffect(() => {
     setImgCondition();
+    // eslint-disable-next-line
   }, [data]);
-
-  console.log("data", data);
 
   return (
     <>
@@ -197,7 +202,7 @@ const Location: React.FC<IData> = ({ data }) => {
             Procure por lugares
           </Button>
 
-          <ButtonLocation>
+          <ButtonLocation onClick={() => getLocation()}>
             <MyLocationIcon />
           </ButtonLocation>
         </Header>
@@ -209,7 +214,7 @@ const Location: React.FC<IData> = ({ data }) => {
 
           <Temperature>
             <h2>
-              {data?.temp} <span>ºC</span>
+              {!fahrenheit ? data?.temp : Math.trunc((data?.temp * 1.8) + 32)} <span>{!fahrenheit ? 'ºC' : 'ºF'}</span>
             </h2>
 
             <h4>{conditionCode[data.condition_code]}</h4>

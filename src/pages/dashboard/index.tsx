@@ -5,7 +5,6 @@ import { Grid } from "@material-ui/core";
 import Location from "../components/Location";
 import BorderLinearProgress from "../components/Progress";
 
-import LightCloud from "../../assets/img/LightCloud.png";
 
 import {
   Container,
@@ -32,7 +31,18 @@ import {
   TextFooter,
 } from "./style";
 
-import api, { apiWoeid } from "../../services/api";
+import Clear from "../../assets/img/Clear.png";
+import NightClear from "../../assets/img/NightClear.png";
+import NightCloud from "../../assets/img/NightCloud.png";
+import LightCloud from "../../assets/img/LightCloud.png";
+import LightRain from "../../assets/img/LightRain.png";
+import Thunderstorm from "../../assets/img/Thunderstorm.png";
+import Sleet from "../../assets/img/Sleet.png";
+import Snow from "../../assets/img/Snow.png";
+import Fog from "../../assets/img/Fog.png";
+import ImgCloud from "../../assets/img/HeavyCloud.png";
+
+import api, { apiGeo, apiWoeid } from "../../services/api";
 
 import SearchContext from "../../context/Search";
 
@@ -62,7 +72,7 @@ interface IForecast {
   weekday: string;
 }
 
-interface IWoeid{
+interface IWoeid {
   cid: string;
   country: string;
   name: string;
@@ -75,33 +85,54 @@ const Dashboard = () => {
   const [data, setData] = useState({} as IData);
   const [woeid, setWoeid] = useState({} as IWoeid)
   const [forecast, setForecast] = useState<IForecast[]>([]);
+  const [fahrenheit, setFahrenheit] = useState(false);
   const wind = data.wind_speedy?.split(" ");
   const sunrise = data?.sunrise?.split(" ");
   const sunset = data?.sunset?.split(" ");
 
   useEffect(() => {
     getWoeid();
+    // eslint-disable-next-line
   }, [search]);
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line
   }, [woeid])
 
   useEffect(() => {
     if (data) {
       updateForecast();
     }
+    // eslint-disable-next-line
   }, [data]);
 
   const getWoeid = async () => {
-    const { data: response } = await apiWoeid.get(`&city_name=${search}`);
-    setWoeid(response);
+    try {
+      const { data: response } = await apiWoeid.get(`&city_name=${search}`);
+      setWoeid(response);
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const getData = async () => {
-    const { data: response } = await api.get(`&woeid=${woeid.woeid}`);
-    setData(response.results);
+    try {
+      const { data: response } = await api.get(`&woeid=${woeid.woeid}`);
+      setData(response.results);
+    } catch (e) {
+      console.log(e);
+    }
   };
+
+  const getLocation = async () => {
+    try {
+      const { data: response } = await apiGeo.get('');
+      setData(response.results)
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   const updateForecast = () => {
     const arrayForecast = data?.forecast;
@@ -109,25 +140,58 @@ const Dashboard = () => {
     setForecast(arrayForecast);
   };
 
+  const imgCondition = (condition: string) => {
+    switch (condition) {
+      case "cloudly_day":
+        return <img src={LightCloud} width="100%" alt="cloudly_day" />;
+      case "clear_day":
+        return <img src={Clear} width="100%" alt="clear_day" />;
+
+      case "clear_night":
+        return <img src={NightClear} width="100%" alt="clear_night" />;
+
+      case "cloudly_night":
+        return <img src={NightCloud} width="100%" alt="cloudly_night" />;
+
+      case "rain":
+        return <img src={LightRain} width="100%" alt="rain" />;
+
+      case "storm":
+        return <img src={Thunderstorm} width="100%" alt="storm" />;
+
+      case "snow":
+        return <img src={Snow} width="100%" alt="snow" />;
+
+      case "hail":
+        return <img src={Sleet} width="100%" alt="hail" />;
+
+      case "fog":
+        return <img src={Fog} width="100%" alt="fog" />;
+
+      case "cloud":
+        return <img src={ImgCloud} width="100%" alt="cloud" />;
+    }
+  };
+
   return (
     <Container>
-      <Location data={data} />
+      <Location data={data} fahrenheit={fahrenheit} getLocation={getLocation} />
 
       <Content>
         <Header>
-          <Button className="celsius">ºC</Button>
-          <Button className="fahrenheit">ºF</Button>
+          <Button className={`${!fahrenheit ? 'celsius' : 'fahrenheit'}`} onClick={() => setFahrenheit(false)}>ºC</Button>
+          <Button className={`${fahrenheit ? 'celsius' : 'fahrenheit'}`} onClick={() => setFahrenheit(true)}>ºF</Button>
         </Header>
 
         <Main>
           <WatherContainer>
-            {forecast?.map((item, key) => (
+            {forecast?.slice(0, 5).map((item, key) => (
               <WeatherCard key={key}>
-                <Title>{item.weekday}</Title>
-                <img src={LightCloud} width="100%" />
+                <Title>{item.weekday}, {item.date}</Title>
+                {imgCondition(item.condition)}
                 <Description>
-                  <Max>{item.max} ºC</Max>
-                  <Min>{item.min} ºC</Min>
+                  <Max>{!fahrenheit ? item?.max : Math.trunc((item.max * 1.8) + 32)} {!fahrenheit ? 'ºC' : 'ºF'}</Max>
+                  <Min>{!fahrenheit ? item?.min : Math.trunc((item.min * 1.8) + 32)} {!fahrenheit ? 'ºC' : 'ºF'}</Min>
                 </Description>
               </WeatherCard>
             ))}
@@ -138,7 +202,7 @@ const Dashboard = () => {
 
             <ContainerCard>
               <Grid container>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} sm={6}>
                   <Card>
                     <CardSubTitle>Status do vento</CardSubTitle>
                     <CardTitle>
@@ -148,7 +212,7 @@ const Dashboard = () => {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} sm={6}>
                   <Card>
                     <CardSubTitle>Umidade</CardSubTitle>
                     <CardTitle>
@@ -169,7 +233,7 @@ const Dashboard = () => {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} sm={6}>
                   <Card>
                     <CardSubTitle>Nascer do sol</CardSubTitle>
                     <CardTitle>
@@ -179,7 +243,7 @@ const Dashboard = () => {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} sm={6}>
                   <Card>
                     <CardSubTitle>Pôr do sol</CardSubTitle>
                     <CardTitle>
@@ -195,7 +259,7 @@ const Dashboard = () => {
 
         <Footer>
           <TextFooter>
-            criado por <span>Grazielle Conceição</span> - devChallenges.io
+            criado por <a href="https://github.com/grazielleanna/" target="_blank" rel="noreferrer">Grazielle Conceição</a> - devChallenges.io
           </TextFooter>
         </Footer>
       </Content>

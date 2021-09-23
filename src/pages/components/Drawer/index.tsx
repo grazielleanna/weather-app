@@ -1,4 +1,5 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import Cookie from 'js-cookie';
 import Formsy from 'formsy-react';
 
 import { InputAdornment } from '@material-ui/core';
@@ -12,15 +13,24 @@ import TextFieldFormsy from '../Input';
 
 import { Container, Header, Close, Search, Button, Main, ButtonOption } from './style'
 
-interface DrawerSearchProps {
+interface IDrawerSearchProps {
     open: any;
     onclose: any;
 }
 
-const DrawerSearch: React.FC<DrawerSearchProps> = ({ open, onclose }) => {
+interface ICookieSearch{
+    city: string;
+}
+
+const DrawerSearch: React.FC<IDrawerSearchProps> = ({ open, onclose }) => {
+    const [cookieSearch, setCookieSearch] = useState<ICookieSearch[]>([]);
     const [isFormValid, setIsFormValid] = useState(false);
     const { setSearch } = useContext(SearchContext);
     const formRef = useRef(null);
+
+    useEffect(() => {
+        getCookie();
+    }, [])
 
     function enableButton() {
         setIsFormValid(true);
@@ -31,7 +41,23 @@ const DrawerSearch: React.FC<DrawerSearchProps> = ({ open, onclose }) => {
     }
 
     const handleSubmit = (model: any) => {
+        let search = [];
+
         setSearch(model.search);
+
+        let object = {
+            city: model.search
+        }
+
+        search.push(...cookieSearch, object);
+        Cookie.set('json-search-weather', JSON.stringify(search));
+        setCookieSearch(search);
+    }
+
+    const getCookie = () => {
+        const getCookie = Cookie.get('json-search-weather');
+        const resultCookie = JSON.parse(getCookie ? getCookie : '');
+        setCookieSearch(resultCookie);
     }
 
     return (
@@ -62,10 +88,15 @@ const DrawerSearch: React.FC<DrawerSearchProps> = ({ open, onclose }) => {
                 </Header>
 
                 <Main>
-                    <ButtonOption>
-                        London
-                        <ArrowForwardIosIcon />
-                    </ButtonOption>
+                    {
+                        cookieSearch.map((item, index) => (
+                            <ButtonOption key={index} onClick={() => setSearch(item.city)}>
+                                {item.city}
+                                <ArrowForwardIosIcon />
+                            </ButtonOption>
+                        ))
+                    }
+
                 </Main>
             </Container>
         </Drawer>

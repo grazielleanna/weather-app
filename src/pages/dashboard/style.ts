@@ -22,6 +22,14 @@ export const Content = styled.main`
         width: 100%;
         padding: 2rem 0;
     }
+
+    @media (max-width: 1023px){
+        width: 91%;
+    }
+
+    @media (max-width: 1199px){
+        padding: 2rem
+    }
 `;
 
 export const Header = styled.header`
@@ -40,10 +48,13 @@ export const Button = styled.button`
 
     border-radius: 50%;
 
+    &:first-child{
+        margin-right: 1rem;
+    }
+
     &.celsius{
         background: #E7E7EB;
         color: #110E3C;
-        margin-right: 1rem;
     }
 
     &.fahrenheit{
@@ -58,9 +69,13 @@ export const Main = styled.main`
 
 export const WatherContainer = styled.section`
     display: flex;
+    justify-content: space-between;
     
     @media (max-width: 767px){
         padding: 0 .8rem;
+
+        flex-wrap: wrap;
+        padding: 0 3rem;
     }
 `;
 
@@ -72,6 +87,12 @@ export const WeatherCard = styled.div`
 
     img{
         width: 60%;
+        height: 82px;
+        object-fit: contain;
+    }
+
+    @media (max-width: 767px){
+        margin-bottom: 1.5rem;
     }
 `;
 
@@ -119,6 +140,33 @@ export const ContainerCard = styled.div`
     @media (max-width: 1919px){
         justify-content: space-between;
     }
+
+    > .MuiGrid-container{
+        div{
+            &:nth-child(1), &:nth-child(3){
+                div{
+                    margin-right: 1rem;
+        
+                    @media (max-width: 1023px){
+                        margin-right: 0;
+                    }
+
+                    @media (max-width: 767px){
+                        margin-left: 1rem;
+                    }
+                }
+            }
+
+            &:nth-child(2), &:nth-child(4){
+                div{
+                    margin-right: 0;
+                    margin-left: auto;
+                }
+            }
+        }
+    
+        
+    }
 `;
 
 export const Card = styled.div`
@@ -141,15 +189,7 @@ export const Card = styled.div`
 
     @media (max-width: 767px){
         max-width: 100%;
-        margin: 0 auto 1rem auto;
-    }
-
-    &:nth-child(1), &:nth-child(3){
-        margin-right: 1rem;
-
-        @media (max-width: 1023px){
-            margin-right: 0;
-        }
+        margin: 0 auto 1rem auto !important;
     }
 `;
 
@@ -194,4 +234,10 @@ export const TextFooter = styled.p`
     color: #A09FB1;
     text-align: center;
     margin: 0;
+
+    a{
+        color: #A09FB1;
+        text-decoration: none;
+        font-weight: bold;
+    }
 `;

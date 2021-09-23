@@ -6,6 +6,24 @@ body{
     padding: 0;
 }
 
+body::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+	background-color: transparent;
+	/* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+	background: rgba(30,33,58, .9);
+	/* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+	border: 1px solid #1E213A;
+	border-radius: 4px;
+	background-color: #100E1D;
+}
+
 button, a{
     cursor: pointer;
 }
