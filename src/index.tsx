@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 // eslint-disable-next-line
-import 'swiper/swiper-bundle.css';
 
 ReactDOM.render(
   <React.StrictMode>
