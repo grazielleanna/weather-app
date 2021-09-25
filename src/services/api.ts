@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 const apiWoeid = axios.create({
-    baseURL: `https://api.hgbrasil.com/stats/find_woeid?key=${process.env.REACT_APP_KEY_HG_BRASIL}&format=json-cors&sdk_version=console&city_name=S%C3%A3o%20Paulo`
+    baseURL: `https://api.hgbrasil.com/stats/find_woeid?key=${process.env.REACT_APP_KEY_HG_BRASIL}&format=json-cors&sdk_version=console`
 });
 
 const apiGeo = axios.create({

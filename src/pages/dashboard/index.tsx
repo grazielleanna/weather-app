@@ -112,7 +112,7 @@ const Dashboard = () => {
 
   const getWoeid = async () => {
     try {
-      const { data: response } = await apiWoeid.get('');
+      const { data: response } = await apiWoeid.get(`&city_name=${search ? search : 'São Paulo'}`);
       if(response.error){
         Swal.fire({
           icon: 'warning',
