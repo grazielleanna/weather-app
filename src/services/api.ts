@@ -2,7 +2,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const api = axios.create({
-    baseURL: `https://api.hgbrasil.com/weather?format=json-cors&key=${process.env.REACT_APP_KEY_WEATHER}`
+    baseURL: `https://api.hgbrasil.com/weather?format=json-cors&key=${process.env.REACT_APP_KEY_WEATHER}&city_name=S%C3%A3o%20Paulo`
 });
 
 const apiWoeid = axios.create({
