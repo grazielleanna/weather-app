@@ -18,17 +18,17 @@ export const Content = styled.main`
     padding: 2rem 9rem;
     width: 61%;
 
-    @media (max-width: 767px){
-        width: 100%;
-        padding: 2rem 0;
+    @media (max-width: 1199px){
+        padding: 2rem
     }
 
     @media (max-width: 1023px){
         width: 91%;
     }
 
-    @media (max-width: 1199px){
-        padding: 2rem
+    @media (max-width: 767px){
+        width: 100%;
+        padding: 2rem 0;
     }
 `;
 
