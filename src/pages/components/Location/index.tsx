@@ -202,7 +202,7 @@ const Location: React.FC<IData> = ({ data, fahrenheit, getLocation }) => {
             Procure por lugares
           </Button>
 
-          <ButtonLocation onClick={() => getLocation()}>
+          <ButtonLocation >
             <MyLocationIcon />
           </ButtonLocation>
         </Header>
